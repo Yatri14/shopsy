@@ -33,7 +33,7 @@ app.get("/", (_req, res) => {
     message: "Shopsy API is running successfully 🚀"
   });
 });
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 10000;
 
 app.use(securityHeaders);
 app.use(cors({ origin: process.env.CORS_ORIGIN || '*', credentials: true }));
