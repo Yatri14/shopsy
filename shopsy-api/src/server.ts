@@ -28,6 +28,11 @@ import { errorHandler } from './utils/errorHandler.js';
 dotenv.config();
 
 const app = express();
+app.get("/", (_req, res) => {
+  res.json({
+    message: "Shopsy API is running successfully 🚀"
+  });
+});
 const port = process.env.PORT || 5000;
 
 app.use(securityHeaders);
