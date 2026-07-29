@@ -7,9 +7,48 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 import { sendMail } from '../utils/email.js';
 
 const signTokens = (user: any) => {
-  const accessToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET || 'devsecret', { expiresIn: '15m' });
-  const refreshToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_REFRESH_SECRET || 'refreshsecret', { expiresIn: '7d' });
-  return { accessToken, refreshToken };
+
+  if (!user._id) {
+    throw new Error("User ID missing");
+  }
+
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is missing");
+  }
+
+  if (!process.env.JWT_REFRESH_SECRET) {
+    throw new Error("JWT_REFRESH_SECRET is missing");
+  }
+
+
+  const accessToken = jwt.sign(
+    {
+      id: user._id.toString(),
+      role: user.role
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: '15m'
+    }
+  );
+
+
+  const refreshToken = jwt.sign(
+    {
+      id: user._id.toString(),
+      role: user.role
+    },
+    process.env.JWT_REFRESH_SECRET,
+    {
+      expiresIn: '7d'
+    }
+  );
+
+
+  return {
+    accessToken,
+    refreshToken
+  };
 };
 
 const setAuthCookies = (res: any, accessToken: string, refreshToken: string) => {
