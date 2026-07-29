@@ -70,7 +70,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       body: JSON.stringify({ email, otpCode }),
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || 'OTP verification failed');
+
+console.log("LOGIN RESPONSE:", data);
+
+if (!response.ok) {
+  throw new Error(data.message || 'Login failed');
+}
+
+if (!data.accessToken) {
+  throw new Error("Access token missing from server response");
+}
+
+localStorage.setItem('shopsy-token', data.accessToken);
+localStorage.setItem('shopsy-user', JSON.stringify(data.user));
+
+setToken(data.accessToken);
+setUser(data.user);
   };
 
   const forgotPassword = async (email: string) => {
