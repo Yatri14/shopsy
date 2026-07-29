@@ -35,8 +35,20 @@ app.get("/", (_req, res) => {
 });
 const port = process.env.PORT || 10000;
 
+
 app.use(securityHeaders);
-app.use(cors({ origin: process.env.CORS_ORIGIN || '*', credentials: true }));
+
+  app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://shopsy-1-22f7.onrender.com"
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+  })
+);
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(parseCookies);
