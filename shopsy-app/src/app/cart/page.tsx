@@ -3,22 +3,48 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Gift, Minus, Plus, ShoppingBag, Sparkles, Trash2 } from 'lucide-react';
+import { ArrowRight, Gift, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
+import { useEffect } from 'react';
+import { formatUsdAsInr } from '../../lib/utils';
 
-const initialItems = [
-  { id: 1, name: 'Aurora Headphones', price: 149, quantity: 1, saved: false },
-  { id: 2, name: 'Luna Backpack', price: 89, quantity: 2, saved: false },
-];
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+  saved?: boolean;
+}
 
 export default function CartPage() {
-  const [items, setItems] = useState(initialItems);
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [cartLoaded, setCartLoaded] = useState(false);
   const [coupon, setCoupon] = useState('');
   const [giftCard, setGiftCard] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem('shopsy-cart');
+      if (savedCart) {
+        const parsedCart: unknown = JSON.parse(savedCart);
+        if (!Array.isArray(parsedCart)) {
+          throw new Error('Saved cart is not a list.');
+        }
+        setItems(parsedCart.map((item) => ({ ...item, quantity: item.quantity ?? 1 })));
+      }
+    } catch (error) {
+      console.error('Could not load the saved cart:', error);
+      localStorage.removeItem('shopsy-cart');
+      setItems([]);
+    } finally {
+      setCartLoaded(true);
+    }
+  }, []);
+
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shipping = subtotal > 200 ? 0 : 15;
-  const tax = subtotal * 0.08;
+  const shipping = 15;
+  const tax = subtotal * 0.18;
   const total = subtotal + shipping + tax;
 
   const updateQuantity = (id: number, delta: number) => {
@@ -32,6 +58,12 @@ export default function CartPage() {
   const saveForLater = (id: number) => {
     setItems((current) => current.map((item) => item.id === id ? { ...item, saved: !item.saved } : item));
   };
+
+  useEffect(() => {
+    if (!cartLoaded) return;
+    localStorage.setItem('shopsy-cart', JSON.stringify(items));
+    window.dispatchEvent(new Event('cartUpdated'));
+  }, [cartLoaded, items]);
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-900 dark:bg-slate-950 dark:text-slate-100 lg:px-8">
@@ -58,27 +90,25 @@ export default function CartPage() {
               <motion.div layout key={item.id} className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-slate-900/10">
-                      <Sparkles className="h-6 w-6 text-blue-600" />
-                    </div>
+                    <img src={item.image} alt={item.name} className="h-16 w-16 rounded-2xl object-cover" />
                     <div>
                       <h2 className="font-semibold">{item.name}</h2>
-                      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">${item.price} each</p>
+                      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{formatUsdAsInr(item.price)} each</p>
                       {item.saved ? <span className="mt-2 inline-block text-xs font-medium text-emerald-600">Saved for later</span> : null}
                     </div>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-3">
                     <div className="flex items-center rounded-full border border-slate-200 bg-slate-50 p-1 dark:border-slate-700 dark:bg-slate-800">
-                      <button onClick={() => updateQuantity(item.id, -1)} className="rounded-full p-2 hover:bg-white dark:hover:bg-slate-700"><Minus className="h-4 w-4" /></button>
+                      <button onClick={() => updateQuantity(item.id, -1)} aria-label={`Decrease ${item.name} quantity`} className="rounded-full p-2 hover:bg-white dark:hover:bg-slate-700"><Minus className="h-4 w-4" /></button>
                       <span className="min-w-8 text-center text-sm font-semibold">{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, 1)} className="rounded-full p-2 hover:bg-white dark:hover:bg-slate-700"><Plus className="h-4 w-4" /></button>
+                      <button onClick={() => updateQuantity(item.id, 1)} aria-label={`Increase ${item.name} quantity`} className="rounded-full p-2 hover:bg-white dark:hover:bg-slate-700"><Plus className="h-4 w-4" /></button>
                     </div>
-                    <div className="font-semibold">${item.price * item.quantity}</div>
+                    <div className="font-semibold">{formatUsdAsInr(item.price * item.quantity)}</div>
                     <button onClick={() => saveForLater(item.id)} className="rounded-full border border-slate-200 px-3 py-2 text-sm text-slate-700 transition hover:border-blue-500 hover:text-blue-500 dark:border-slate-700 dark:text-slate-300">
                       {item.saved ? 'Unsave' : 'Save for later'}
                     </button>
-                    <button onClick={() => removeItem(item.id)} className="rounded-full border border-rose-200 p-2 text-rose-600 transition hover:bg-rose-50 dark:border-rose-800 dark:hover:bg-rose-950/30"><Trash2 className="h-4 w-4" /></button>
+                    <button onClick={() => removeItem(item.id)} aria-label={`Remove ${item.name}`} className="rounded-full border border-rose-200 p-2 text-rose-600 transition hover:bg-rose-50 dark:border-rose-800 dark:hover:bg-rose-950/30"><Trash2 className="h-4 w-4" /></button>
                   </div>
                 </div>
               </motion.div>
@@ -108,10 +138,10 @@ export default function CartPage() {
           <aside className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <h2 className="text-xl font-semibold">Order summary</h2>
             <div className="mt-6 space-y-3 text-sm text-slate-600 dark:text-slate-300">
-              <div className="flex justify-between"><span>Subtotal</span><span>${subtotal}</span></div>
-              <div className="flex justify-between"><span>Shipping</span><span>{shipping === 0 ? 'Free' : `$${shipping}`}</span></div>
-              <div className="flex justify-between"><span>Tax</span><span>${tax.toFixed(2)}</span></div>
-              <div className="flex justify-between border-t border-slate-200 pt-3 text-base font-semibold text-slate-900 dark:border-slate-700 dark:text-slate-100"><span>Total</span><span>${total.toFixed(2)}</span></div>
+              <div className="flex justify-between"><span>Subtotal</span><span>{formatUsdAsInr(subtotal)}</span></div>
+              <div className="flex justify-between"><span>Shipping</span><span>{formatUsdAsInr(shipping)}</span></div>
+              <div className="flex justify-between"><span>Tax</span><span>{formatUsdAsInr(tax)}</span></div>
+              <div className="flex justify-between border-t border-slate-200 pt-3 text-base font-semibold text-slate-900 dark:border-slate-700 dark:text-slate-100"><span>Total</span><span>{formatUsdAsInr(total)}</span></div>
             </div>
 
             <div className="mt-6 rounded-3xl bg-slate-50 p-4 dark:bg-slate-800">
@@ -145,7 +175,7 @@ export default function CartPage() {
                 ))}
               </div>
               <div className="mt-auto rounded-3xl bg-slate-950 p-5 text-white dark:bg-blue-500 dark:text-slate-950">
-                <div className="flex items-center justify-between text-sm"><span>Estimated total</span><span>${total.toFixed(2)}</span></div>
+                <div className="flex items-center justify-between text-sm"><span>Estimated total</span><span>{formatUsdAsInr(total)}</span></div>
               </div>
             </motion.aside>
           </motion.div>

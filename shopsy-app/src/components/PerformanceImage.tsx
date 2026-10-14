@@ -9,9 +9,10 @@ interface PerformanceImageProps {
   width?: number;
   height?: number;
   className?: string;
+  priority?: boolean;
 }
 
-export default function PerformanceImage({ src, alt, width = 800, height = 600, className }: PerformanceImageProps) {
+export default function PerformanceImage({ src, alt, width = 800, height = 600, className, priority = false }: PerformanceImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
@@ -22,7 +23,8 @@ export default function PerformanceImage({ src, alt, width = 800, height = 600, 
         width={width}
         height={height}
         className={`transition duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-        loading="lazy"
+        priority={priority}
+        loading={priority ? undefined : 'lazy'}
         decoding="async"
         sizes="(max-width: 768px) 100vw, 50vw"
         onLoad={() => setIsLoaded(true)}

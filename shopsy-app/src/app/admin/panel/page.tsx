@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { BarChart3, Box, Briefcase, CreditCard, FolderTree, Gift, LayoutGrid, Megaphone, MessageSquare, Package, Settings, ShieldCheck, ShoppingCart, Sparkles, Tag, Users, Warehouse } from 'lucide-react';
+import { formatUsdAsInr } from '../../../lib/utils';
 
 const navItems = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutGrid },
@@ -22,7 +23,7 @@ const navItems = [
 ];
 
 const stats = [
-  { title: 'Revenue', value: '$184K', detail: '+18.2%' },
+  { title: 'Revenue', value: formatUsdAsInr(184000), detail: '+18.2%' },
   { title: 'Orders', value: '2,841', detail: '+12.4%' },
   { title: 'Customers', value: '14.9K', detail: '+8.9%' },
   { title: 'Conversion', value: '4.8%', detail: '+1.1%' },

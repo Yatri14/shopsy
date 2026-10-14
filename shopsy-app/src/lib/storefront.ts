@@ -169,6 +169,6 @@ export const instagramPosts = [
   { title: 'Glow mode', tone: 'from-cyan-500 to-slate-900' },
 ];
 
-export const getProductBySlug = (slug: string) => storefrontProducts.find((product) => product.slug === slug) ?? storefrontProducts[0];
+export const getProductBySlug = (slug: string) => storefrontProducts.find((product) => product.slug === slug || String(product.id) === slug) ?? storefrontProducts[0];
 
 export const getRelatedProducts = (slug: string) => storefrontProducts.filter((product) => product.slug !== slug).slice(0, 3);

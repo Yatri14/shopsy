@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { forgotPassword, getMe, login, logout, refresh, register, resetPassword, verifyOtp } from '../controllers/authController.js';
-import { protect } from '../middleware/authMiddleware.js';
-import { csrfProtection } from '../middleware/securityMiddleware.js';
+import { forgotPassword, getMe, login, logout, refresh, register, resetPassword, verifyOtp } from '../controllers/authController';
+import { protect } from '../middleware/authMiddleware';
+import { csrfProtection } from '../middleware/securityMiddleware';
 
 const router = Router();
 

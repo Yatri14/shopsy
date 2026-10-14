@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Bell, CreditCard, Heart, MapPin, MessageSquareText, Package, RefreshCcw, Settings, ShieldCheck, Sparkles, Star, Ticket, Wallet2 } from 'lucide-react';
 import PremiumFeaturesPanel from '../../components/PremiumFeaturesPanel';
+import { formatUsdAsInr } from '../../lib/utils';
 
 const navItems = [
   { key: 'dashboard', label: 'Dashboard', icon: Sparkles },
@@ -22,7 +23,7 @@ const navItems = [
 const cards = [
   { title: 'Orders', value: '3 active', accent: 'from-blue-500/20 to-slate-900/10' },
   { title: 'Wishlist', value: '12 saved', accent: 'from-slate-900/20 to-blue-500/10' },
-  { title: 'Wallet', value: '$248', accent: 'from-emerald-500/20 to-slate-900/10' },
+  { title: 'Wallet', value: formatUsdAsInr(248), accent: 'from-emerald-500/20 to-slate-900/10' },
   { title: 'Support', value: '2 tickets', accent: 'from-amber-500/20 to-slate-900/10' },
 ];
 
@@ -97,7 +98,7 @@ export default function AccountPage() {
                     </div>
                     <div className="rounded-3xl bg-slate-50 p-6 dark:bg-slate-800">
                       <div className="flex items-center gap-2 text-lg font-semibold"><Wallet2 className="h-5 w-5 text-blue-500" /> Wallet balance</div>
-                      <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">$248 available for future purchases</p>
+                      <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">{formatUsdAsInr(248)} available for future purchases</p>
                     </div>
                     <div className="rounded-3xl bg-slate-50 p-6 dark:bg-slate-800">
                       <div className="flex items-center gap-2 text-lg font-semibold"><Bell className="h-5 w-5 text-blue-500" /> Notifications</div>
@@ -120,7 +121,7 @@ export default function AccountPage() {
                   </div>
                 ) : activeTab === 'wallet' ? (
                   <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-800">
-                    <p className="text-sm text-slate-600 dark:text-slate-300">Balance: $248 • Reward points: 1,250</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-300">Balance: {formatUsdAsInr(248)} • Reward points: 1,250</p>
                   </div>
                 ) : activeTab === 'support' ? (
                   <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-800">

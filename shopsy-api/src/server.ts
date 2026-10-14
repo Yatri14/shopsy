@@ -38,7 +38,7 @@ const port = process.env.PORT || 10000;
 
 app.use(securityHeaders);
 
-  app.use(
+app.use(
   cors({
     origin: [
       "http://localhost:3000",
@@ -50,6 +50,16 @@ app.use(securityHeaders);
   })
 );
 app.use(express.json({ limit: '1mb' }));
+app.use((req, _res, next) => {
+  if (req.path === '/api/auth/login') {
+    console.log('=== RAW LOGIN CHECK ===');
+    console.log('METHOD:', req.method);
+    console.log('CONTENT-TYPE:', req.headers['content-type']);
+    console.log('BODY AFTER JSON PARSER:', req.body);
+  }
+
+  next();
+});
 app.use(express.urlencoded({ extended: true }));
 app.use(parseCookies);
 app.use(sanitizeInput);
@@ -81,13 +91,20 @@ app.use('/api/seller', sellerRoutes);
 
 app.use(errorHandler);
 
+const MONGO_URI =
+  process.env.MONGODB_URI ||
+  "mongodb://127.0.0.1:27017/shopsy";
+
 mongoose
-  .connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/shopsy')
+  .connect(MONGO_URI)
   .then(() => {
-    console.log('MongoDB connected');
-    app.listen(port, () => console.log(`API listening on port ${port}`));
+    console.log("MongoDB connected");
+    app.listen(port, () => {
+      console.log(`API listening on port ${port}`);
+    });
   })
   .catch((error) => {
-    console.error('MongoDB connection failed', error);
+    console.error("MongoDB connection failed", error);
     process.exit(1);
   });
+

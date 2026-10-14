@@ -16,24 +16,25 @@ import {
   SunMedium,
   Truck,
 } from 'lucide-react';
+import { formatUsdAsInr } from '../lib/utils';
 
 const featuredProducts = [
-  { name: 'Aurora Headphones', price: '$149', tag: 'Audio', accent: 'from-blue-500/20 to-slate-900/10' },
-  { name: 'Luna Backpack', price: '$89', tag: 'Travel', accent: 'from-sky-400/20 to-cyan-500/10' },
-  { name: 'Nova Smart Watch', price: '$219', tag: 'Wearables', accent: 'from-slate-900/20 to-blue-500/10' },
+  { name: 'Aurora Headphones', price: 149, tag: 'Audio', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80' },
+  { name: 'Luna Backpack', price: 89, tag: 'Travel', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=80' },
+  { name: 'Nova Smart Watch', price: 219, tag: 'Wearables', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80' },
 ];
 
 const bestSellers = [
-  { name: 'Halo Lamp', price: '$129', badge: 'Bestseller' },
-  { name: 'Orbit Speaker', price: '$99', badge: 'Hot' },
-  { name: 'Atlas Tote', price: '$74', badge: 'New' },
+  { name: 'Halo Lamp', price: 129, badge: 'Bestseller', image: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=80' },
+  { name: 'Orbit Speaker', price: 99, badge: 'Hot', image: 'https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?auto=format&fit=crop&w=900&q=80' },
+  { name: 'Atlas Tote', price: 74, badge: 'New', image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80' },
 ];
 
 const trendingProducts = [
-  { name: 'Aero Runner', price: '$120' },
-  { name: 'Pulse Case', price: '$49' },
-  { name: 'Contour Chair', price: '$299' },
-  { name: 'Mira Bottle', price: '$32' },
+  { name: 'Aero Runner', price: 120, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80' },
+  { name: 'Pulse Case', price: 49, image: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=900&q=80' },
+  { name: 'Contour Chair', price: 299, image: 'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=900&q=80' },
+  { name: 'Mira Bottle', price: 32, image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=900&q=80' },
 ];
 
 const categories = ['Tech', 'Fashion', 'Home', 'Wellness'];
@@ -69,7 +70,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
       <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-8">
-        <Link href="/" className="text-xl font-semibold tracking-tight">Shopsy</Link>
+        <Link href="/home" className="text-xl font-semibold tracking-tight">Shopsy</Link>
         <div className="flex items-center gap-3">
           <Link href="/products" className="hidden rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-500 hover:text-blue-500 dark:border-slate-700 dark:text-slate-300 sm:inline-flex">
             Shop now
@@ -148,7 +149,7 @@ export default function HomePage() {
                   <p className="text-sm text-blue-100">Studio bundle</p>
                   <p className="text-lg font-semibold">Aurora + Luna</p>
                 </div>
-                <span className="rounded-full bg-white/20 px-3 py-1 text-sm">Save $80</span>
+                <span className="rounded-full bg-white/20 px-3 py-1 text-sm">Save {formatUsdAsInr(80)}</span>
               </div>
             </div>
           </div>
@@ -194,11 +195,17 @@ export default function HomePage() {
               transition={{ delay: index * 0.08, duration: 0.45 }}
               className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900"
             >
-              <div className={`h-32 rounded-2xl bg-gradient-to-br ${product.accent}`} />
+              <img
+                src={product.image}
+                alt={product.name}
+                className="h-32 w-full rounded-2xl object-cover"
+                loading="lazy"
+                decoding="async"
+              />
               <p className="mt-4 text-sm font-medium text-blue-500">{product.tag}</p>
               <h3 className="mt-2 text-xl font-semibold">{product.name}</h3>
               <div className="mt-6 flex items-center justify-between">
-                <span className="text-lg font-semibold">{product.price}</span>
+                <span className="text-lg font-semibold">{formatUsdAsInr(product.price)}</span>
                 <button className="rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 dark:bg-blue-500 dark:text-slate-950">
                   Add to bag
                 </button>
@@ -215,11 +222,18 @@ export default function HomePage() {
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-blue-300">Best sellers</p>
               <h2 className="mt-2 text-2xl font-semibold">Loved by modern shoppers</h2>
             </div>
-            <div className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-blue-100">Free express shipping over $100</div>
+            <div className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-blue-100">Free express shipping over {formatUsdAsInr(100)}</div>
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {bestSellers.map((item) => (
               <div key={item.name} className="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="mb-5 h-36 w-full rounded-xl object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <div className="flex items-center justify-between">
                   <span className="rounded-full bg-blue-500/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-blue-100">{item.badge}</span>
                   <ShoppingBag className="h-5 w-5 text-blue-200" />
@@ -227,7 +241,7 @@ export default function HomePage() {
                 <h3 className="mt-5 text-lg font-semibold">{item.name}</h3>
                 <p className="mt-2 text-sm text-slate-300">Comfort-forward, premium-finished, and built to perform.</p>
                 <div className="mt-4 flex items-center justify-between">
-                  <span className="font-semibold">{item.price}</span>
+                  <span className="font-semibold">{formatUsdAsInr(item.price)}</span>
                   <button className="text-sm font-medium text-blue-200">Buy now</button>
                 </div>
               </div>
@@ -247,11 +261,17 @@ export default function HomePage() {
         <div className="grid gap-4 md:grid-cols-4">
           {trendingProducts.map((item) => (
             <div key={item.name} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-              <div className="h-24 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700" />
+              <img
+                src={item.image}
+                alt={item.name}
+                className="h-24 w-full rounded-2xl object-cover"
+                loading="lazy"
+                decoding="async"
+              />
               <h3 className="mt-4 font-semibold">{item.name}</h3>
               <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Limited drop • premium finish</p>
               <div className="mt-4 flex items-center justify-between">
-                <span className="font-semibold">{item.price}</span>
+                <span className="font-semibold">{formatUsdAsInr(item.price)}</span>
                 <Star className="h-4 w-4 text-amber-400" />
               </div>
             </div>
@@ -270,9 +290,20 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
-            {['New arrivals', 'Studio edit', 'Everyday carry', 'Cloud comfort'].map((label) => (
+            {[
+              { label: 'New arrivals', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=80' },
+              { label: 'Studio edit', image: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=80' },
+              { label: 'Everyday carry', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=80' },
+              { label: 'Cloud comfort', image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=900&q=80' },
+            ].map(({ label, image }) => (
               <div key={label} className="rounded-[24px] border border-slate-200 bg-slate-50 p-6 dark:border-slate-800 dark:bg-slate-800">
-                <div className="h-20 rounded-2xl bg-gradient-to-br from-blue-500/20 to-slate-900/10" />
+                <img
+                  src={image}
+                  alt={label}
+                  className="h-20 w-full rounded-2xl object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <h3 className="mt-4 text-lg font-semibold">{label}</h3>
                 <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Refined objects designed to elevate daily life.</p>
               </div>

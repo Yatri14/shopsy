@@ -1,45 +1,25 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import { ArrowRight, Check, ChevronRight, Heart, Play, Share2, ShoppingCart, Sparkles, Star, Truck, RotateCcw, Scale, Eye, MessageCircle, BadgeCheck } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Breadcrumbs from '../../../components/Breadcrumbs';
+import { getProductBySlug } from '../../../lib/storefront';
+import { formatUsdAsInr } from '../../../lib/utils';
 
 const PerformanceImage = dynamic(() => import('../../../components/PerformanceImage'), { ssr: true });
 
-const product = {
-  name: 'Aurora Headphones',
-  price: 149,
-  originalPrice: 199,
-  discount: 25,
-  stock: 18,
-  rating: 4.8,
-  reviews: 312,
-  description:
-    'Immersive sound, all-day comfort, and studio-grade noise cancellation in a premium silhouette designed for modern listening.',
-  specs: [
-    '40mm drivers with spatial audio',
-    'Adaptive ANC and transparency mode',
-    '30-hour battery life with fast charge',
-    'Soft-touch memory foam ear cushions',
-  ],
-  images: [
-    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80',
-    'https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?auto=format&fit=crop&w=900&q=80',
-    'https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?auto=format&fit=crop&w=900&q=80',
-  ],
-};
-
 const relatedProducts = [
-  { name: 'Nova Smart Watch', price: '$219', tag: 'Wearables' },
-  { name: 'Luna Backpack', price: '$89', tag: 'Travel' },
-  { name: 'Halo Lamp', price: '$129', tag: 'Home' },
+  { name: 'Nova Smart Watch', price: 219, tag: 'Wearables' },
+  { name: 'Luna Backpack', price: 89, tag: 'Travel' },
+  { name: 'Halo Lamp', price: 129, tag: 'Home' },
 ];
 
 const alsoBought = [
-  { name: 'Pulse Case', price: '$49' },
-  { name: 'Mira Cable', price: '$29' },
+  { name: 'Pulse Case', price: 49 },
+  { name: 'Mira Cable', price: 29 },
 ];
 
 const faqs = [
@@ -48,8 +28,48 @@ const faqs = [
 ];
 
 export default function ProductPage() {
+  const { slug } = useParams<{ slug: string }>();
+  const catalogProduct = getProductBySlug(slug);
+  const product = {
+    ...catalogProduct,
+    originalPrice: catalogProduct.compareAtPrice,
+    discount: Math.round((1 - catalogProduct.price / catalogProduct.compareAtPrice) * 100),
+    specs: catalogProduct.features,
+  };
   const [selectedImage, setSelectedImage] = useState(product.images[0]);
   const [zoomed, setZoomed] = useState(false);
+  const [cartMessage, setCartMessage] = useState('');
+
+  useEffect(() => {
+    setSelectedImage(product.images[0]);
+  }, [product.images]);
+
+  const addToCart = () => {
+    try {
+      const savedCart = localStorage.getItem('shopsy-cart');
+      const cart: Array<{ id: number; quantity?: number; [key: string]: unknown }> = savedCart ? JSON.parse(savedCart) : [];
+      const existingItem = cart.find((item) => item.id === product.id);
+      const updatedCart = existingItem
+        ? cart.map((item) => item.id === product.id ? { ...item, quantity: (item.quantity ?? 1) + 1 } : item)
+        : [...cart, {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          category: product.category,
+          brand: product.brand,
+          rating: product.rating,
+          stock: product.stock > 0,
+          image: product.image,
+          quantity: 1,
+        }];
+      localStorage.setItem('shopsy-cart', JSON.stringify(updatedCart));
+      window.dispatchEvent(new Event('cartUpdated'));
+      setCartMessage(`${product.name} added to your cart.`);
+    } catch (error) {
+      console.error('Could not add the product to the cart:', error);
+      setCartMessage('Could not add this product to your cart. Please try again.');
+    }
+  };
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-900 dark:bg-slate-950 dark:text-slate-100 lg:px-8">
@@ -68,6 +88,7 @@ export default function ProductPage() {
                   alt={product.name}
                   width={900}
                   height={720}
+                  priority
                   className={`h-[420px] w-full object-cover transition duration-300 ${zoomed ? 'scale-125' : 'scale-100'}`}
                 />
                 <div className="absolute right-4 top-4 rounded-full bg-white/80 p-2 text-slate-700 shadow-sm backdrop-blur">
@@ -77,7 +98,7 @@ export default function ProductPage() {
             </div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              {product.images.map((image) => (
+              {Array.from(new Set(product.images)).map((image) => (
                 <button key={image} onClick={() => setSelectedImage(image)} className={`overflow-hidden rounded-2xl border ${selectedImage === image ? 'border-blue-500' : 'border-slate-200 dark:border-slate-800'}`}>
                   <PerformanceImage src={image} alt={product.name} width={300} height={220} className="h-24 w-full object-cover" />
                 </button>
@@ -119,8 +140,8 @@ export default function ProductPage() {
               </div>
 
               <div className="mt-6 flex items-end gap-3">
-                <div className="text-3xl font-semibold">${product.price}</div>
-                <div className="text-lg text-slate-400 line-through">${product.originalPrice}</div>
+                <div className="text-3xl font-semibold">{formatUsdAsInr(product.price)}</div>
+                <div className="text-lg text-slate-400 line-through">{formatUsdAsInr(product.originalPrice)}</div>
                 <div className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">-{product.discount}%</div>
               </div>
 
@@ -134,16 +155,17 @@ export default function ProductPage() {
               </div>
 
               <div className="mt-6 flex flex-wrap gap-3">
-                <button className="rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-blue-500 dark:text-slate-950">
+                <button onClick={addToCart} className="rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-blue-500 dark:text-slate-950">
                   <span className="flex items-center gap-2"><ShoppingCart className="h-4 w-4" /> Add to cart</span>
                 </button>
                 <button className="rounded-full border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-500 hover:text-blue-500 dark:border-slate-700 dark:text-slate-300">
                   <span className="flex items-center gap-2"><Scale className="h-4 w-4" /> Compare</span>
                 </button>
               </div>
+              {cartMessage ? <p role="status" className="mt-3 text-sm text-emerald-600">{cartMessage}</p> : null}
 
               <div className="mt-6 flex flex-wrap gap-2">
-                {['Free shipping', 'In stock', 'Warranty included'].map((pill) => (
+                {['Free shipping', product.stock > 0 ? 'In stock' : 'Out of stock', 'Warranty included'].map((pill) => (
                   <span key={pill} className="rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">{pill}</span>
                 ))}
               </div>
@@ -213,7 +235,7 @@ export default function ProductPage() {
                 <p className="mt-4 text-sm font-medium text-blue-500">{item.tag}</p>
                 <h3 className="mt-1 font-semibold">{item.name}</h3>
                 <div className="mt-4 flex items-center justify-between">
-                  <span className="font-semibold">{item.price}</span>
+                  <span className="font-semibold">{formatUsdAsInr(item.price)}</span>
                   <button className="rounded-full bg-slate-950 px-3 py-2 text-sm font-medium text-white dark:bg-blue-500 dark:text-slate-950">Buy</button>
                 </div>
               </div>
@@ -231,7 +253,7 @@ export default function ProductPage() {
                     <h3 className="font-semibold">{item.name}</h3>
                     <p className="text-sm text-slate-600 dark:text-slate-300">Bundle-friendly accessory</p>
                   </div>
-                  <span className="font-semibold">{item.price}</span>
+                  <span className="font-semibold">{formatUsdAsInr(item.price)}</span>
                 </div>
               ))}
             </div>

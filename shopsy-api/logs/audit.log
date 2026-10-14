@@ -1,0 +1,157 @@
+2026-07-29T05:39:58.342Z POST /api/auth/login ::1
+2026-07-29T05:39:58.342Z -> 200
+2026-07-29T05:46:03.672Z POST /api/auth/login ::1
+2026-07-29T05:46:03.672Z -> 200
+2026-07-29T06:09:20.075Z POST /api/auth/login ::1
+2026-07-29T06:09:20.075Z -> 200
+2026-07-29T06:15:57.057Z POST /api/auth/login ::1
+2026-07-29T06:15:57.057Z -> 200
+2026-07-29T06:16:47.825Z GET /api/auth/login ::1
+2026-07-29T06:16:47.825Z -> 500
+2026-07-29T06:16:47.929Z GET /favicon.ico ::1
+2026-07-29T06:16:47.929Z -> 404
+2026-07-29T06:17:12.547Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-07-29T06:17:12.547Z -> 404
+2026-08-03T15:09:54.555Z GET /health ::1
+2026-08-03T15:09:54.555Z -> 200
+2026-08-03T15:09:54.618Z GET /favicon.ico ::1
+2026-08-03T15:09:54.618Z -> 404
+2026-08-03T15:10:48.063Z GET /api/auth/register ::1
+2026-08-03T15:10:48.063Z -> 400
+2026-08-03T15:14:29.390Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:14:29.390Z -> 404
+2026-08-03T15:17:08.272Z GET /api/auth/register ::1
+2026-08-03T15:17:08.272Z -> 400
+2026-08-03T15:17:08.351Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:17:08.351Z -> 404
+2026-08-03T15:34:24.438Z GET /api/auth/register ::1
+2026-08-03T15:34:24.438Z -> 400
+2026-08-03T15:34:24.490Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:24.490Z -> 404
+2026-08-03T15:34:27.898Z GET /api/auth/register ::1
+2026-08-03T15:34:27.898Z -> 400
+2026-08-03T15:34:27.929Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:27.929Z -> 404
+2026-08-03T15:34:28.410Z GET /api/auth/register ::1
+2026-08-03T15:34:28.410Z -> 400
+2026-08-03T15:34:28.448Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:28.448Z -> 404
+2026-08-03T15:34:29.344Z GET /api/auth/register ::1
+2026-08-03T15:34:29.344Z -> 400
+2026-08-03T15:34:29.370Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:29.370Z -> 404
+2026-08-03T15:34:30.455Z GET /api/auth/register ::1
+2026-08-03T15:34:30.455Z -> 400
+2026-08-03T15:34:30.493Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:30.493Z -> 404
+2026-08-03T15:34:31.848Z GET /api/auth/register ::1
+2026-08-03T15:34:31.848Z -> 400
+2026-08-03T15:34:31.873Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:31.873Z -> 404
+2026-08-03T15:34:32.115Z GET /api/auth/register ::1
+2026-08-03T15:34:32.115Z -> 400
+2026-08-03T15:34:32.145Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:32.145Z -> 404
+2026-08-03T15:34:32.369Z GET /api/auth/register ::1
+2026-08-03T15:34:32.369Z -> 400
+2026-08-03T15:34:32.407Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:32.407Z -> 404
+2026-08-03T15:34:32.623Z GET /api/auth/register ::1
+2026-08-03T15:34:32.623Z -> 400
+2026-08-03T15:34:32.656Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:32.656Z -> 404
+2026-08-03T15:34:32.880Z GET /api/auth/register ::1
+2026-08-03T15:34:32.880Z -> 400
+2026-08-03T15:34:32.900Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:32.900Z -> 404
+2026-08-03T15:34:33.137Z GET /api/auth/register ::1
+2026-08-03T15:34:33.137Z -> 400
+2026-08-03T15:34:33.171Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:33.171Z -> 404
+2026-08-03T15:34:33.380Z GET /api/auth/register ::1
+2026-08-03T15:34:33.380Z -> 400
+2026-08-03T15:34:33.409Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:33.409Z -> 404
+2026-08-03T15:34:33.606Z GET /api/auth/register ::1
+2026-08-03T15:34:33.606Z -> 400
+2026-08-03T15:34:33.636Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:33.636Z -> 404
+2026-08-03T15:34:36.226Z GET /api/auth/register ::1
+2026-08-03T15:34:36.226Z -> 400
+2026-08-03T15:34:36.253Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:36.253Z -> 404
+2026-08-03T15:34:37.608Z GET /api/auth/register ::1
+2026-08-03T15:34:37.608Z -> 400
+2026-08-03T15:34:37.630Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-03T15:34:37.630Z -> 404
+2026-08-07T03:38:42.454Z GET /favicon.ico ::1
+2026-08-07T03:38:42.454Z -> 404
+2026-08-07T03:38:56.853Z GET /api/auth/login ::1
+2026-08-07T03:38:56.853Z -> 400
+2026-08-07T03:41:29.860Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-07T03:41:29.860Z -> 404
+2026-08-07T03:41:41.432Z GET /api/auth/login ::1
+2026-08-07T03:41:41.432Z -> 400
+2026-08-07T03:41:41.526Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-07T03:41:41.526Z -> 404
+2026-08-07T03:41:51.240Z GET /api/auth/login ::1
+2026-08-07T03:41:51.240Z -> 400
+2026-08-07T03:41:56.795Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-07T03:41:56.795Z -> 404
+2026-08-07T03:42:05.495Z GET /api/auth/login ::1
+2026-08-07T03:42:05.495Z -> 400
+2026-08-07T03:42:05.608Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-07T03:42:05.608Z -> 404
+2026-08-07T03:42:21.481Z GET /api/auth/login ::1
+2026-08-07T03:42:21.481Z -> 400
+2026-08-08T16:59:19.409Z GET /api/auth/login ::1
+2026-08-08T16:59:19.409Z -> 400
+2026-08-08T16:59:20.886Z GET /api/auth/login ::1
+2026-08-08T16:59:20.886Z -> 400
+2026-08-08T16:59:20.990Z GET /favicon.ico ::1
+2026-08-08T16:59:20.990Z -> 404
+2026-08-08T17:01:13.854Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-08T17:01:13.854Z -> 404
+2026-08-08T17:01:24.525Z GET /api/auth/login ::1
+2026-08-08T17:01:24.525Z -> 400
+2026-08-08T17:01:24.696Z GET /.well-known/appspecific/com.chrome.devtools.json ::1
+2026-08-08T17:01:24.696Z -> 404
+2026-08-10T14:52:07.483Z GET /api/auth/login ::1
+2026-08-10T14:52:07.483Z -> 400
+2026-08-10T14:52:07.551Z GET /favicon.ico ::1
+2026-08-10T14:52:07.551Z -> 404
+2026-08-10T14:53:41.100Z POST /api/auth/login ::1
+2026-08-10T14:53:41.100Z -> 400
+2026-08-10T15:08:04.629Z POST /api/auth/login ::1
+2026-08-10T15:08:04.629Z -> 400
+2026-08-10T15:10:19.911Z GET /api/auth/login ::1
+2026-08-10T15:10:19.911Z -> 400
+2026-08-10T15:13:37.825Z POST /api/auth/login ::1
+2026-08-10T15:13:37.825Z -> 400
+2026-08-10T15:13:43.269Z GET /api/auth/login ::1
+2026-08-10T15:13:43.269Z -> 400
+2026-08-10T15:14:36.679Z POST /api/auth/login ::1
+2026-08-10T15:14:36.679Z -> 400
+2026-08-10T15:14:37.948Z POST /api/auth/login ::1
+2026-08-10T15:14:37.948Z -> 400
+2026-08-10T15:14:38.170Z POST /api/auth/login ::1
+2026-08-10T15:14:38.170Z -> 400
+2026-08-10T15:28:17.555Z POST /api/auth/login ::1
+2026-08-10T15:28:17.555Z -> 400
+2026-08-10T16:13:05.992Z POST /api/auth/login ::1
+2026-08-10T16:13:05.992Z -> 200
+2026-08-10T16:23:19.699Z POST /api/auth/login ::1
+2026-08-10T16:23:19.699Z -> 200
+2026-08-12T15:02:03.297Z POST /api/auth/login ::1
+2026-08-12T15:02:03.297Z -> 200
+2026-08-12T15:02:55.908Z GET /api/auth/login ::1
+2026-08-12T15:02:55.908Z -> 400
+2026-08-12T15:02:57.299Z GET /api/auth/login ::1
+2026-08-12T15:02:57.299Z -> 400
+2026-08-12T15:02:57.367Z GET /favicon.ico ::1
+2026-08-12T15:02:57.367Z -> 404
+2026-08-12T15:18:09.805Z POST /api/auth/login ::1
+2026-08-12T15:18:09.805Z -> 200
+2026-08-12T15:18:15.091Z POST /api/auth/login ::1
+2026-08-12T15:38:25.316Z POST /api/auth/login ::1
+2026-08-12T15:38:25.316Z -> 200

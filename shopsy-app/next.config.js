@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/auth',
+        permanent: false,
+      },
+    ];
+  },
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
