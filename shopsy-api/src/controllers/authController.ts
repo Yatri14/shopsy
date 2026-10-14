@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
@@ -77,18 +78,11 @@ const setAuthCookies = (
 
 export const register = asyncHandler(async (req, res) => {
   const {
-  email,
-  password,
-  role,
-} = req.body;
-
-const cleanEmail =
-  String(email)
-    .match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)?.[0]
-    ?.toLowerCase()
-    .trim();
-
-console.log("CLEAN EMAIL:", cleanEmail);
+    name,
+    email,
+    password,
+    role = 'customer',
+  } = req.body;
 
   if (!name || !email || !password) {
     throw new AppError(
@@ -174,7 +168,7 @@ export const verifyOtp = asyncHandler(async (req, res) => {
 });
 export const login = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
     // 1. Validate input
     if (!email || !password) {
@@ -193,8 +187,6 @@ export const login = async (req: Request, res: Response) => {
     }).select('+password');
 
     if (!user) {
-      console.log('LOGIN FAILED: User not found:', normalizedEmail);
-
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials',
@@ -208,19 +200,22 @@ export const login = async (req: Request, res: Response) => {
     );
 
     if (!passwordMatches) {
-      console.log('LOGIN FAILED: Password does not match:', normalizedEmail);
-
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials',
       });
     }
 
-    // 5. Check email verification if your schema uses it
-    if (
-      'isEmailVerified' in user &&
-      user.isEmailVerified === false
-    ) {
+    // 5. Verify role if specified
+    if (role && user.role !== role) {
+      return res.status(401).json({
+        success: false,
+        message: `This account is registered as a ${user.role}. Select that role and try again.`,
+      });
+    }
+
+    // 6. Check email verification
+    if (user.isVerified === false) {
       return res.status(403).json({
         success: false,
         message: 'Verify your email first',

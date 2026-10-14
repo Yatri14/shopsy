@@ -7,9 +7,6 @@ export const validateAuthInput = (
   _res: Response,
   next: NextFunction
 ) => {
-  console.log('PATH:', req.path);
-  console.log('BODY:', req.body);
-
   const {
     email,
     password,
@@ -22,18 +19,6 @@ export const validateAuthInput = (
   ========================= */
 
   if (req.path.includes('/register')) {
-    console.log('REGISTER VALIDATION:', {
-      name,
-      email,
-      passwordLength: password?.length,
-      role,
-      isEmail: validator.isEmail(
-        typeof email === 'string'
-          ? email
-          : ''
-      ),
-    });
-
     if (
       typeof name !== 'string' ||
       !name.trim() ||
@@ -71,17 +56,6 @@ export const validateAuthInput = (
   ========================= */
 
   if (req.path.includes('/login')) {
-    console.log('LOGIN VALIDATION:', {
-      email,
-      passwordLength: password?.length,
-      role,
-      isEmail: validator.isEmail(
-        typeof email === 'string'
-          ? email
-          : ''
-      ),
-    });
-
     if (
       typeof email !== 'string' ||
       !validator.isEmail(email) ||
@@ -98,9 +72,9 @@ export const validateAuthInput = (
       );
     }
 
-    // Role is required for role-based login
+    // Validate role if supplied
     if (
-      typeof role !== 'string' ||
+      role &&
       !['customer', 'seller', 'admin'].includes(role)
     ) {
       return next(

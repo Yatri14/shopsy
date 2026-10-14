@@ -50,16 +50,6 @@ app.use(
   })
 );
 app.use(express.json({ limit: '1mb' }));
-app.use((req, _res, next) => {
-  if (req.path === '/api/auth/login') {
-    console.log('=== RAW LOGIN CHECK ===');
-    console.log('METHOD:', req.method);
-    console.log('CONTENT-TYPE:', req.headers['content-type']);
-    console.log('BODY AFTER JSON PARSER:', req.body);
-  }
-
-  next();
-});
 app.use(express.urlencoded({ extended: true }));
 app.use(parseCookies);
 app.use(sanitizeInput);
@@ -107,4 +97,3 @@ mongoose
     console.error("MongoDB connection failed", error);
     process.exit(1);
   });
-

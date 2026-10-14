@@ -30,11 +30,13 @@ export const csrfProtection = csrf({ cookie: true });
 
 export const sanitizeInput = (req: Request, _res: Response, next: NextFunction) => {
   for (const key of Object.keys(req.body || {})) {
+    if (key.toLowerCase().includes('password')) continue;
     if (typeof req.body[key] === 'string') {
       req.body[key] = validator.escape(req.body[key]);
     }
   }
   for (const key of Object.keys(req.query || {})) {
+    if (key.toLowerCase().includes('password')) continue;
     if (typeof req.query[key] === 'string') {
       req.query[key] = validator.escape(req.query[key] as string) as any;
     }
