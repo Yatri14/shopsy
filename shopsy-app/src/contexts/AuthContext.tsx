@@ -240,35 +240,6 @@ const verifyOtp = async (
   }
 };
 
-
-    const data = await response.json();
-
-<<<<<<< HEAD
-console.log("LOGIN RESPONSE:", data);
-
-if (!response.ok) {
-  throw new Error(data.message || 'Login failed');
-}
-
-if (!data.accessToken) {
-  throw new Error("Access token missing from server response");
-}
-
-localStorage.setItem('shopsy-token', data.accessToken);
-localStorage.setItem('shopsy-user', JSON.stringify(data.user));
-
-setToken(data.accessToken);
-setUser(data.user);
-=======
-    if (!response.ok) {
-      throw new Error(
-        data.message ||
-          'OTP verification failed'
-      );
-    }
->>>>>>> 57ffb74 (Update Shopsy project)
-  };
-
   // =========================
   // FORGOT PASSWORD
   // =========================
